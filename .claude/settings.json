@@ -1,0 +1,62 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(python *)",
+      "Bash(pip install *)",
+      "Bash(pytest *)",
+      "Bash(jupyter *)",
+      "Bash(git *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(duckdb *)",
+      "Write",
+      "Edit",
+      "NotebookEdit",
+      "Task"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(*credentials*)",
+      "Read(*secret*)",
+      "Bash(rm -rf *)",
+      "Bash(DROP TABLE*)",
+      "Bash(DELETE FROM*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/validate-data-load.sh"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/lint-notebook.sh"
+          }
+        ]
+      }
+    ]
+  },
+  "mcpServers": {
+    "duckdb": {
+      "command": "npx",
+      "args": ["-y", "@motherduck/mcp-server-duckdb"],
+      "env": {
+        "DUCKDB_PATH": "./data/analytics.duckdb"
+      }
+    }
+  }
+}

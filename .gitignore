@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (keep structure, not large files)
+data/raw/*.csv
+data/raw/*.parquet
+data/processed/*.parquet
+data/external/*.csv
+!data/**/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code local settings
+.claude/settings.local.json
+.claude/plans/
